@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+
+div .filter {
+    padding: 1rem;
+}
+
+.edit>i {
+    color: brown;
+    padding-right: 0.5rem;
+}
+
+.delete>i {
+    color: darkgray;
+}
