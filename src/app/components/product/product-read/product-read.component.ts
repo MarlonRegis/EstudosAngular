@@ -1,9 +1,11 @@
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { ProductService } from './../product.service';
 import { Product } from "./../product.model";
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTable } from '@angular/material/table';
-import {MatTableDataSource} from '@angular/material/table'
-import {Router} from '@angular/router';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-product-read',
@@ -15,19 +17,23 @@ export class ProductReadComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'price', 'action'];
   products: Product[];
-  dataSource = new MatTableDataSource(this.products)
+  dataSource = new MatTableDataSource;
 
-  applyFilter(filterValue: string){
-    console.log(filterValue)
-    console.log(typeof(this.products))
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   constructor(private ProductService: ProductService) { }
-  
+
   ngOnInit(): void {
-    this.ProductService.read().subscribe(products =>{
-      this.products =products;
+    this.ProductService.read().subscribe(products => {
+      this.products = products;
+      this.dataSource = new MatTableDataSource(this.products)
+      this.dataSource.sort = this.sort
+      this.dataSource.paginator = this.paginator
     })
   }
 }
